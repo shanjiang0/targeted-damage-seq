@@ -1,0 +1,2 @@
+1	CPD1	/path/to/rawdata/CPD1_Read1.fastq.gz,/path/to/rawdata/CPD1_Read2.fastq.gz
+2	CPD2	/path/to/rawdata/CPD2_Read1.fastq.gz,/path/to/rawdata/CPD2_Read2.fastq.gz
