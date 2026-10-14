@@ -41,11 +41,12 @@ Notes:
     - utils/ scripts must be in the same directory as this pipeline script
 """
 
-import sys
-import os
 __author__  = "Shan Jiang"
 __email__   = "sj31280@uga.edu"
 __version__ = "1.0.0"
+
+import sys
+import os
 from collections import defaultdict
 
 # ── Configuration ──────────────────────────────────────────────────────────────
