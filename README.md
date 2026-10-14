@@ -55,14 +55,14 @@ This code accompanies the manuscript *Targeted DNA Damage Sequencing and Integra
 
 The pipeline is designed for a **Linux HPC cluster with SLURM** and environment modules (Lmod). Generated job scripts load these modules:
 
-| Software | Version |
+| Software | Tested version |
 |---|---|
-| cutadapt | ≥4.9 |
-| Biopython | ≥1.84 |
-| Bowtie | ≥1.3.1 |
-| SAMtools | ≥1.21 |
-| bedtools (via pybedtools module) | ≥ 0.10.0 |
-| Python | ≥ 3.8 |
+| cutadapt | 4.9 |
+| Biopython | 1.84 |
+| Bowtie | 1.3.1 |
+| SAMtools | 1.21 |
+| bedtools | 2.31.0 |
+| Python | 3.12 |
 
 If your system does not use modules, install these tools yourself and remove the `ml ...` lines from the generated scripts. Module names may also differ on your cluster.
 
