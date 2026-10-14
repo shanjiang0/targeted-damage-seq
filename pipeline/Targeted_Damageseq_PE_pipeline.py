@@ -1,9 +1,17 @@
-#!/bin/python
+#!/usr/bin/env python3
 """
 TARGET Damage-seq Paired-End Processing Pipeline
 -------------------------------------------------
+Author      : Shan Jiang (sj31280@uga.edu)
+Affiliation : Li Lab, University of Georgia
+Repository  : https://github.com/shanjiang0/target-damage-seq
+Version     : 1.0.0
+License     : MIT (see LICENSE file)
+Citation    : If you use this pipeline, please cite this repository
+              (see CITATION.cff or the "Cite this repository" button on GitHub).
+-------------------------------------------------
 Usage:
-    python Damageseq_PE_pipeline.py <sample_list> <work_dir> <treatment> <bt_ref> <ref_fa> <chrom_sizes_slop>
+    python Targeted_Damageseq_PE_pipeline.py <sample_list> <work_dir> <treatment> <bt_ref> <ref_fa> <chrom_sizes_slop>
 
 Arguments:
     sample_list      : TSV file with 3 columns: rep_name  sampleID  fq1,fq2
@@ -35,13 +43,16 @@ Notes:
 
 import sys
 import os
+__author__  = "Shan Jiang"
+__email__   = "sj31280@uga.edu"
+__version__ = "1.0.0"
 from collections import defaultdict
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 
 if len(sys.argv) != 7:
     sys.exit(
-        "Usage: python Damageseq_PE_pipeline.py "
+        "Usage: python Targeted_Damageseq_PE_pipeline.py "
         "<sample_list> <work_dir> <treatment> <bt_ref> <ref_fa> <chrom_sizes_slop>"
     )
 
@@ -250,3 +261,4 @@ with open(f"{work_dir}/01.scripts/02.replicates_merging/sub_array.sh", "w") as O
         'file=$(awk "NR==${SLURM_ARRAY_TASK_ID}" script.list)',
         'sh $file',
     ]) + "\n")
+
