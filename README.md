@@ -1,12 +1,12 @@
-# Targeted DNA Damage Sequencing and Integrative Analysis Identify Genomic Determinants of Melanoma Mutagenesis
+# TARGET Damage-seq Processing Pipeline
 
-> **Note:** This repository contains code associated with the manuscript currently under review. The primary dataset will be made publicly available upon publication.
+Processing pipeline for **TARGET Damage-seq** paired-end sequencing data, from raw FASTQ files to damage-site BED files, coverage bedGraphs, and nucleotide/k-mer composition at damage sites.
 
----
+This code accompanies the manuscript *Targeted DNA Damage Sequencing and Integrative Analysis Identify Genomic Determinants of Melanoma Mutagenesis* (under review).
 
-## Overview
+> **Note:** This repository contains only the Damage-seq **processing pipeline**. Downstream analysis and figure-reproduction code for the paper will be released separately on Zenodo (DOI to be added upon publication).
 
-This repository provides the full analysis pipeline for **TARGET Damage-seq**, including data processing, statistical analysis, machine learning models, and figure reproduction scripts used in the paper. The pipeline integrates our newly generated Damage-seq data with published multi-omics datasets to identify genomic determinants of melanoma mutagenesis.
+**Developed by:** Shan Jiang ([@shanjiang0](https://github.com/shanjiang0)), Li Lab, University of Georgia
 
 ---
 
@@ -15,128 +15,169 @@ This repository provides the full analysis pipeline for **TARGET Damage-seq**, i
 ```
 .
 ├── README.md
-├── envs/                        # Conda/environment configuration files
-│   ├── environment_python.yml
-│   └── environment_r.yml
-├── data/
-│   ├── raw/                     # Raw input data (not included; see Data Availability)
-│   └── processed/               # Intermediate processed files
-├── pipeline/
-│   └── damage_seq_pipeline.sh   # Main Bash pipeline for Damage-seq processing
-├── analysis/
-│   ├── preprocessing.py         # Data cleaning and feature engineering
-│   ├── integrative_analysis.py  # Multi-omics integration and ML models
-│   └── statistics.py            # Statistical tests and models
-├── R/
-│   ├── visualization.R          # Main figure plotting scripts
-│   ├── genomic_analysis.R       # Genomic context and mutation signature analysis
-│   └── differential_analysis.R # Differential damage analysis
-├── notebooks/                   # (Optional) Exploratory Jupyter / R notebooks
-├── results/
-│   └── figures/                 # Output figures
-└── scripts/                     # Miscellaneous utility scripts
+├── LICENSE
+├── CITATION.cff
+├── .gitignore
+└── pipeline/
+    ├── build_project.sh                     # Sets up folders and generates all job scripts
+    ├── Targeted_Damageseq_PE_pipeline.py    # Main pipeline (paired-end)
+    ├── Example/
+    │   └── 00.rawdata/
+    │       └── targeted_Damageseq_sample.list   # Example sample list
+    └── utils/                               # Helper scripts called by the pipeline
+        ├── format_unify_fastq_check.py
+        ├── filter_read1_PE.py
+        ├── Dedup_PE.sh
+        ├── fix_bed.py
+        ├── fa2nt_abundance.py
+        └── kmer_abundance.py
 ```
-
-> **Note:** Adjust folder names to match your actual structure before pushing.
 
 ---
 
-## Data Availability
+## Pipeline Steps
 
-| Dataset | Source | Accession |
+| Step | Description | Tool |
 |---|---|---|
-| TARGET Damage-seq (this study) | GEO | Pending release upon publication |
-| Published omics datasets | GEO / public repositories | See paper Methods section |
-
-Once the paper is published, the primary dataset will be released. In the meantime, contact the corresponding author for data access inquiries.
+| 01 | Merge / link FASTQ files per sample | `cat` / `ln` |
+| 02 | Adapter trimming | cutadapt |
+| 03 | FASTQ formatting and quality filtering (Q ≥ 20) | Python / Biopython |
+| 04 | Deduplication | `Dedup_PE.sh` |
+| 05 | Alignment | Bowtie1 |
+| 06 | SAM → BAM → BED (properly paired, Read 1 only) | SAMtools, bedtools |
+| 07 | Replicate merging | `cat` |
+| 08 | Slop, range fixing, bedGraph generation | bedtools |
+| 09 | FASTA extraction, nucleotide and k-mer abundance | bedtools, Python |
 
 ---
 
 ## Requirements
 
-### System
-- Linux / macOS (Bash pipeline)
-- Python ≥ 3.8
-- R ≥ 4.1
+The pipeline is designed for a **Linux HPC cluster with SLURM** and environment modules (Lmod). Generated job scripts load these modules:
 
-### Python Dependencies
-Install via conda or pip:
-```bash
-conda env create -f envs/environment_python.yml
-conda activate damage-seq-py
-```
-Or with pip:
-```bash
-pip install -r requirements.txt
-```
+| Software | Version |
+|---|---|
+| cutadapt | 4.9 |
+| Biopython | 1.84 |
+| Bowtie | 1.3.1 |
+| SAMtools | 1.21 |
+| bedtools (via pybedtools module) | 0.10.0 |
+| Python | ≥ 3.8 |
 
-Key Python packages: `numpy`, `pandas`, `scikit-learn`, `scipy`, `matplotlib`, `seaborn`
+If your system does not use modules, install these tools yourself and remove the `ml ...` lines from the generated scripts. Module names may also differ on your cluster.
 
-### R Dependencies
-```r
-# In R console
-install.packages(c("ggplot2", "dplyr", "tidyr", "BiocManager"))
-BiocManager::install(c("GenomicRanges", "BSgenome", "SomaticSignatures"))
-# Add other Bioconductor packages as needed
-```
+### Reference files
+- **Bowtie1 index** built from your reference genome (e.g. hg19 or hg38)
+- **Reference FASTA** — the same genome used to build the index
+- **Chromosome sizes file** (UCSC format) for the same genome
 
 ---
 
 ## Usage
 
-### 1. Damage-seq Processing Pipeline (Bash)
+### 1. Prepare the sample list
+
+The sample list is a **tab-separated** file with 3 columns and **no header line**:
+
+| Column | Description | Example |
+|---|---|---|
+| 1. rep_name | Replicate group name. Samples with the same rep_name are merged in step 07. | `1` |
+| 2. sampleID | Unique sample ID | `CPD1` |
+| 3. fq1,fq2 | Paths to Read 1 and Read 2 FASTQ files, separated by a comma (no space) | `/path/R1.fastq.gz,/path/R2.fastq.gz` |
+
+See the example: [`pipeline/Example/00.rawdata/targeted_Damageseq_sample.list`](pipeline/Example/00.rawdata/targeted_Damageseq_sample.list)
+
+The file must be named `targeted_Damageseq_sample.list` and placed in `00.rawdata/` inside your working directory. Columns must be separated by real tabs, not spaces.
+
+### 2. Configure and run the setup script
+
 ```bash
-bash pipeline/damage_seq_pipeline.sh \
-  --input data/raw/sample.fastq.gz \
-  --genome hg38 \
-  --output data/processed/
+mkdir my_project && cd my_project
+mkdir -p 00.rawdata
+cp /path/to/your/targeted_Damageseq_sample.list 00.rawdata/
+cp /path/to/target-damage-seq/pipeline/build_project.sh .
 ```
 
-### 2. Integrative Analysis (Python)
+Edit the **Configuration** section of `build_project.sh`:
+
 ```bash
-python analysis/integrative_analysis.py \
-  --damage data/processed/damage_sites.bed \
-  --omics data/raw/omics/ \
-  --output results/
+treatment="UV"        # UV, Cisplatin, or untreated
+bt_ref="/path/to/bowtie1_index/hg19"
+ref_fa="/path/to/reference/hg19.fa"
+chrom_sizes_slop="/path/to/reference/hg19.chrom.sizes"
+pipeline_script="/path/to/target-damage-seq/pipeline/Targeted_Damageseq_PE_pipeline.py"
 ```
 
-### 3. Figure Generation (R)
-```r
-Rscript R/visualization.R
+Then run:
+
+```bash
+bash build_project.sh
 ```
 
-> See individual script headers for full argument documentation.
+This creates the folder structure and writes one job script per sample and per replicate group.
+
+### 3. Submit the jobs
+
+Run the preprocessing jobs first, and wait for them to finish:
+
+```bash
+cd 01.scripts/01.preprocessing && sbatch sub_array.sh
+```
+
+Then run replicate merging:
+
+```bash
+cd ../02.replicates_merging && sbatch sub_array.sh
+```
+
+Adjust the `#SBATCH` settings (partition, memory, time) in the generated `sub_array.sh` files for your cluster.
 
 ---
 
-## Reproducing Paper Results
+## Output
 
-To reproduce the main figures and analyses from the paper:
+```
+my_project/
+├── 00.rawdata/                      # Sample list
+├── 01.scripts/                      # Generated job scripts
+│   ├── 01.preprocessing/
+│   └── 02.replicates_merging/
+└── 02.results/
+    ├── 01.preprocessing/<sampleID>/ # Trimmed/filtered FASTQ, BAM, <sampleID>.sorted.bed
+    └── 02.replicates_merging/<rep_name>/
+```
 
-1. Download data (see **Data Availability** above)
-2. Place raw files under `data/raw/`
-3. Run the Bash pipeline to generate processed files
-4. Run Python analysis scripts
-5. Run R visualization scripts to generate figures under `results/figures/`
+Key output files per replicate group (`02.results/02.replicates_merging/<rep_name>/`):
 
-A step-by-step walkthrough is provided in `notebooks/` (coming soon).
+| File | Description |
+|---|---|
+| `<rep>.rep.merged.bed` | Merged damage-site reads from all samples in the group |
+| `<rep>.combined77_sorted.bedgraph` | Coverage of 77-bp read windows |
+| `<rep>.combined2_sorted.bedgraph` | Coverage of 2-bp damage sites |
+| `<rep>_nt_abun.txt`, `<rep>_kmer_abun.txt` | Nucleotide and dinucleotide composition, 10-bp window |
+| `<rep>_nt_abun2.txt`, `<rep>_kmer_abun2.txt` | Nucleotide and dinucleotide composition at the 2-bp damage site |
 
 ---
 
 ## Citation
 
-If you use this code or data in your work, please cite:
+If you use this pipeline, please cite:
 
-> [Authors]. *Targeted DNA Damage Sequencing and Integrative Analysis Identify Genomic Determinants of Melanoma Mutagenesis.* [Journal], [Year]. [DOI — to be added upon publication]
+> Jiang, S. (2026). *TARGET Damage-seq Processing Pipeline* (Version 1.0.0) [Computer software]. https://github.com/shanjiang0/target-damage-seq
+
+The associated manuscript citation will be added upon publication. You can also click **"Cite this repository"** on the right side of the GitHub page for APA and BibTeX formats.
 
 ---
+
+## Author
+
+**Shan Jiang**, Li Lab, University of Georgia
+Email: sj31280@uga.edu
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE) — feel free to use and adapt with attribution.
-
----
+This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-For questions about the code or data, please open a [GitHub Issue](../../issues) or contact the corresponding author at **[your.email@institution.edu]**.
+For questions or problems, please open a [GitHub Issue](../../issues) or contact Shan Jiang at sj31280@uga.edu.
