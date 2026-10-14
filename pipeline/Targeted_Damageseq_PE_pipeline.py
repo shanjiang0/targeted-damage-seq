@@ -209,14 +209,6 @@ with open(script_list2, "w") as S2:
 
             W2.write(f"\nml pybedtools/0.10.0-foss-2023b\n")
 
-            # ── 77 bp window ──────────────────────────────────────────────────
-            slop_bed    = f"{rep_dir}/{rep_name}.slop.bed"
-            range77_bed = f"{rep_dir}/{rep_name}.range77.sorted.bed"
-            bedgraph77  = f"{rep_dir}/{rep_name}.combined77_sorted.bedgraph"
-            W2.write(f"bedtools slop -i {merged_bed} -g {chrom_sizes_slop} -b 2 -s > {slop_bed}\n")
-            W2.write(f"python3 {script_path}fix_bed.py --input {slop_bed} --side l --length 77 --strandFlag True --output {range77_bed}\n")
-            W2.write(f"bedtools genomecov -i {range77_bed} -bg -g {chrom_sizes_slop} > {bedgraph77}\n")
-
             # ── 10 bp window (FASTA + abundance) ─────────────────────────────
             slop6_bed   = f"{rep_dir}/{rep_name}.slop6.bed"
             range10_bed = f"{rep_dir}/{rep_name}.range10.sorted.bed"
