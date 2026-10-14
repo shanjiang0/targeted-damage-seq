@@ -67,8 +67,9 @@ The pipeline is designed for a **Linux HPC cluster with SLURM** and environment 
 If your system does not use modules, install these tools yourself and remove the `ml ...` lines from the generated scripts. Module names may also differ on your cluster.
 
 ### Reference files
+
 - **Bowtie1 index** built from your reference genome (e.g. hg19 or hg38)
-- **Reference FASTA** — the same genome used to build the index
+- **Reference FASTA**, the same genome used to build the index
 - **Chromosome sizes file** (UCSC format) for the same genome
 
 ---
@@ -161,11 +162,15 @@ Key output files per replicate group (`02.results/02.replicates_merging/<rep_nam
 
 ## Citation
 
-If you use this pipeline, please cite:
+The associated manuscript is currently **under review**. Until it is published, please cite this repository:
 
 > Jiang, S. (2026). *TARGET Damage-seq Processing Pipeline* (Version 1.0.0) [Computer software]. https://github.com/shanjiang0/target-damage-seq
 
-The associated manuscript citation will be added upon publication. You can also click **"Cite this repository"** on the right side of the GitHub page for APA and BibTeX formats.
+You can also click **"Cite this repository"** on the right side of this GitHub page for APA and BibTeX formats.
+
+The manuscript citation will be added here upon publication:
+
+> Jiang, S., *et al.* Targeted DNA damage sequencing and multi-omic analysis reveal repair kinetics and genomic context shaping UV-induced mutagenesis. *Manuscript under review.*
 
 ---
 
@@ -180,4 +185,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-For questions or problems, please open a [GitHub Issue](../../issues) or contact Shan Jiang at sj31280@uga.edu.
+For questions or problems, please open a [GitHub Issue](../../issues) or email sj31280@uga.edu.
