@@ -1,6 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
+# Author      : Shan Jiang (sj31280@uga.edu)
+# Affiliation : Li Lab, University of Georgia
+# Repository  : https://github.com/shanjiang0/target-damage-seq
+# Version     : 1.0.0
+# License     : MIT (see LICENSE file)
+
 # ── Project Setup Script for TARGET Damage-seq ────────────────────────────────
 # Usage: bash build_project.sh
 # Run this from your project working directory.
@@ -19,7 +25,7 @@ set -euo pipefail
 
 # ── Configuration (edit these) ────────────────────────────────────────────────
 
-METHOD="Damageseq"
+METHOD="Targeted_Damageseq"
 treatment="UV"
 seq="PE"
 workdir="$(pwd)"
