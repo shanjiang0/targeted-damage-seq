@@ -1,4 +1,4 @@
-# TARGET Damage-seq Processing Pipeline
+# Targeted Damage-seq Processing Pipeline
 
 Processing pipeline for **TARGET Damage-seq** paired-end sequencing data, from raw FASTQ files to damage-site BED files, coverage bedGraphs, and nucleotide/k-mer composition at damage sites.
 
