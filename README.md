@@ -2,11 +2,9 @@
 
 Processing pipeline for **TARGET Damage-seq** paired-end sequencing data, from raw FASTQ files to damage-site BED files, coverage bedGraphs, and nucleotide/k-mer composition at damage sites.
 
-This code accompanies the manuscript *Targeted DNA Damage Sequencing and Integrative Analysis Identify Genomic Determinants of Melanoma Mutagenesis* (under review).
+This code accompanies the manuscript *Targeted DNA damage sequencing and multi-omic analysis reveal repair kinetics and genomic context shaping UV-induced mutagenesis* (under review).
 
-> **Note:** This repository contains only the Damage-seq **processing pipeline**. Downstream analysis and figure-reproduction code for the paper will be released separately on Zenodo (DOI to be added upon publication).
-
-**Developed by:** Shan Jiang ([@shanjiang0](https://github.com/shanjiang0)), Li Lab, University of Georgia
+> **Note:** This repository contains only the Damage-seq **processing pipeline**. Downstream analysis and figure-reproduction code for the paper is available at [UV-tDamage-seq-mutagenesis](https://github.com/shanjiang0/UV-tDamage-seq-mutagenesis) (Zenodo DOI to be added upon publication).
 
 ---
 
@@ -16,7 +14,6 @@ This code accompanies the manuscript *Targeted DNA Damage Sequencing and Integra
 .
 ├── README.md
 ├── LICENSE
-├── CITATION.cff
 ├── .gitignore
 └── pipeline/
     ├── build_project.sh                     # Sets up folders and generates all job scripts
@@ -153,7 +150,6 @@ Key output files per replicate group (`02.results/02.replicates_merging/<rep_nam
 | File | Description |
 |---|---|
 | `<rep>.rep.merged.bed` | Merged damage-site reads from all samples in the group |
-| `<rep>.combined77_sorted.bedgraph` | Coverage of 77-bp read windows |
 | `<rep>.combined2_sorted.bedgraph` | Coverage of 2-bp damage sites |
 | `<rep>_nt_abun.txt`, `<rep>_kmer_abun.txt` | Nucleotide and dinucleotide composition, 10-bp window |
 | `<rep>_nt_abun2.txt`, `<rep>_kmer_abun2.txt` | Nucleotide and dinucleotide composition at the 2-bp damage site |
@@ -176,16 +172,14 @@ The manuscript citation will be added here upon publication:
 
 ## Author and contact
 
-Code written by **Shan Jiang** (GitHub: @shanjiang0), University of Georgia.
+Code written by **Shan Jiang** (GitHub: [@shanjiang0](https://github.com/shanjiang0)), Li Lab, University of Georgia.
 
 Corresponding author: **Dr. Wentao Li** (Wentao.Li@uga.edu), University of Georgia.
 
-For questions about the code, please open an issue in this repository or contact the corresponding author.
+For questions about the code, please open a [GitHub Issue](../../issues) or contact the corresponding author.
+
+---
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-## Contact
-
-For questions or problems, please open a [GitHub Issue](../../issues) or email sj31280@uga.edu.
