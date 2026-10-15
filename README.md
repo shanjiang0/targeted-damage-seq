@@ -174,10 +174,13 @@ The manuscript citation will be added here upon publication:
 
 ---
 
-## Author
+## Author and contact
 
-**Shan Jiang**, Li Lab, University of Georgia
-Email: sj31280@uga.edu
+Code written by **Shan Jiang** (GitHub: @shanjiang0), University of Georgia.
+
+Corresponding author: **Dr. Wentao Li** (Wentao.Li@uga.edu), University of Georgia.
+
+For questions about the code, please open an issue in this repository or contact the corresponding author.
 
 ## License
 
