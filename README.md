@@ -1,6 +1,6 @@
 # Targeted Damage-seq Processing Pipeline
 
-Processing pipeline for **TARGET Damage-seq** paired-end sequencing data, from raw FASTQ files to damage-site BED files, coverage bedGraphs, and nucleotide/k-mer composition at damage sites.
+Processing pipeline for **Targeted Damage-seq** paired-end sequencing data, from raw FASTQ files to damage-site BED files, coverage bedGraphs, and nucleotide/k-mer composition at damage sites.
 
 This code accompanies the manuscript *Targeted DNA damage sequencing and multi-omic analysis reveal repair kinetics and genomic context shaping UV-induced mutagenesis* (under review).
 
