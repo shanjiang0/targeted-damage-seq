@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Targeted Damage-seq Processing Pipeline"
+version: 1.0.0
+date-released: 2026-10-16
+url: "https://github.com/shanjiang0/targeted-damage-seq"
+repository-code: "https://github.com/shanjiang0/targeted-damage-seq"
+license: MIT
+authors:
+  - family-names: Jiang
+    given-names: Shan
+    affiliation: "University of Georgia"
+    orcid: "https://orcid.org/0009-0005-7559-1671"
+keywords:
+  - Damage-seq
+  - DNA damage
+  - UV
+  - next-generation sequencing
+  - pipeline
