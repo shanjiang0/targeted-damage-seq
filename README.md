@@ -162,7 +162,7 @@ Key output files per replicate group (`02.results/02.replicates_merging/<rep_nam
 
 The associated manuscript is currently **under review**. Until it is published, please cite this repository:
 
-> Jiang, S. (2026). *TARGET Damage-seq Processing Pipeline* (Version 1.0.0) [Computer software]. https://github.com/shanjiang0/target-damage-seq
+> Jiang, S. (2026). *Targeted Damage-seq Processing Pipeline* (Version 1.0.0) [Computer software]. https://github.com/shanjiang0/targeted-damage-seq
 
 You can also click **"Cite this repository"** on the right side of this GitHub page for APA and BibTeX formats.
 
