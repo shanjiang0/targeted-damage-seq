@@ -174,7 +174,7 @@ The manuscript citation will be added here upon publication:
 
 ## Author and contact
 
-Code written by **Shan Jiang** (GitHub: [@shanjiang0](https://github.com/shanjiang0)), Li Lab, University of Georgia.
+Code written by **Shan Jiang** (GitHub: [@shanjiang0](https://github.com/shanjiang0)) and **Yiran Wu** (GitHub: [@wuyiran55](https://github.com/wuyiran55)), Li Lab, University of Georgia.
 
 Corresponding author: **Dr. Wentao Li** (Wentao.Li@uga.edu), University of Georgia.
 
