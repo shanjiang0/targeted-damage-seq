@@ -1,11 +1,12 @@
 # Targeted Damage-seq Processing Pipeline
 
+[![DOI](https://zenodo.org/badge/1206052279.svg)](https://doi.org/10.5281/zenodo.23419326)
+
 Processing pipeline for **Targeted Damage-seq** paired-end sequencing data, from raw FASTQ files to damage-site BED files, coverage bedGraphs, and nucleotide/k-mer composition at damage sites.
 
 This code accompanies the manuscript *Targeted DNA damage sequencing and multi-omic analysis reveal repair kinetics and genomic context shaping UV-induced mutagenesis* (under review).
-[![DOI](https://zenodo.org/badge/1206052279.svg)](https://doi.org/10.5281/zenodo.23419326)
 
-> **Note:** This repository contains only the Damage-seq **processing pipeline**. Downstream analysis and figure-reproduction code for the paper is available at [UV-tDamage-seq-mutagenesis](https://github.com/shanjiang0/UV-tDamage-seq-mutagenesis) (Zenodo DOI to be added upon publication).
+> **Note:** This repository contains only the Damage-seq **processing pipeline**. Downstream analysis and figure-reproduction code for the paper is available at [UV-tDamage-seq-mutagenesis](https://github.com/shanjiang0/UV-tDamage-seq-mutagenesis) (Zenodo DOI: [10.5281/zenodo.23419348](https://doi.org/10.5281/zenodo.23419348))
 
 ---
 
